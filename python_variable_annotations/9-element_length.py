@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Module that annotates an element_length function."""
 from typing import Iterable, Sequence, List, Tuple
 
