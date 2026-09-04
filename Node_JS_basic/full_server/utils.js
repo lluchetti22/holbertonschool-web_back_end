@@ -17,10 +17,12 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
     for (const student of students) {
       const [firstname, , , field] = student.split(',');
       if (firstname && field) {
-        if (!fields[field]) {
-          fields[field] = [];
+        const cleanField = field.trim();
+        const cleanName = firstname.trim();
+        if (!fields[cleanField]) {
+          fields[cleanField] = [];
         }
-        fields[field].push(firstname);
+        fields[cleanField].push(cleanName);
       }
     }
     resolve(fields);
@@ -28,4 +30,3 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
 });
 
 export default readDatabase;
-export { readDatabase };

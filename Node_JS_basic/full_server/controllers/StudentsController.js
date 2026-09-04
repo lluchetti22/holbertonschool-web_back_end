@@ -1,10 +1,10 @@
-import { readDatabase } from '../utils';
+import readDatabase from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
     const dbPath = process.argv[2];
 
-    readDatabase(dbPath)
+    return readDatabase(dbPath)
       .then((fields) => {
         const responseText = ['This is the list of our students'];
         const sortedFields = Object.keys(fields).sort((a, b) => (
@@ -31,7 +31,7 @@ class StudentsController {
 
     const dbPath = process.argv[2];
 
-    readDatabase(dbPath)
+    return readDatabase(dbPath)
       .then((fields) => {
         const list = fields[major] ? fields[major].join(', ') : '';
         return response.status(200).send(`List: ${list}`);
@@ -41,4 +41,3 @@ class StudentsController {
 }
 
 export default StudentsController;
-export { StudentsController };
