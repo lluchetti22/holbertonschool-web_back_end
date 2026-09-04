@@ -1,4 +1,4 @@
-import { readDatabase } from '../utils';
+import readDatabase from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
@@ -45,4 +45,3 @@ class StudentsController {
 }
 
 export default StudentsController;
-export { StudentsController };
