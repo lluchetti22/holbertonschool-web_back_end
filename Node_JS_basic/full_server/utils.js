@@ -2,12 +2,16 @@ import fs from 'fs';
 
 const readDatabase = (filePath) => {
   return new Promise((resolve, reject) => {
+    if (!filePath) {
+      reject(new Error('Cannot load the database'));
+      return;
+    }
     fs.readFile(filePath, 'utf-8', (err, data) => {
       if (err) {
-        reject(err);
+        reject(new Error('Cannot load the database'));
         return;
       }
-      const lines = data.trim().split('\n');
+      const lines = data.trim().split(/\r?\n/);
       const students = lines.slice(1).filter((line) => line.trim() !== '');
       const fields = {};
 
