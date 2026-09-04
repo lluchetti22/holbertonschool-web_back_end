@@ -30,3 +30,4 @@ const readDatabase = (filePath) => {
 };
 
 export default readDatabase;
+export { readDatabase };
