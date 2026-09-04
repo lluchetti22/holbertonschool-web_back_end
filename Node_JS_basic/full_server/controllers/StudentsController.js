@@ -1,4 +1,4 @@
-import readDatabase from '../utils';
+import { readDatabase } from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
@@ -7,9 +7,9 @@ class StudentsController {
     readDatabase(dbPath)
       .then((fields) => {
         const responseText = ['This is the list of our students'];
-        const sortedFields = Object.keys(fields).sort((a, b) =>
+        const sortedFields = Object.keys(fields).sort((a, b) => (
           a.localeCompare(b, undefined, { sensitivity: 'base' })
-        );
+        ));
 
         for (const field of sortedFields) {
           const count = fields[field].length;
@@ -19,9 +19,7 @@ class StudentsController {
 
         return response.status(200).send(responseText.join('\n'));
       })
-      .catch(() => {
-        return response.status(500).send('Cannot load the database');
-      });
+      .catch(() => response.status(500).send('Cannot load the database'));
   }
 
   static getAllStudentsByMajor(request, response) {
@@ -38,10 +36,9 @@ class StudentsController {
         const list = fields[major] ? fields[major].join(', ') : '';
         return response.status(200).send(`List: ${list}`);
       })
-      .catch(() => {
-        return response.status(500).send('Cannot load the database');
-      });
+      .catch(() => response.status(500).send('Cannot load the database'));
   }
 }
 
 export default StudentsController;
+export { StudentsController };
