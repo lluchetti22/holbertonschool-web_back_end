@@ -13,7 +13,11 @@ function countStudents(path) {
         return;
       }
 
-      const lines = data.split('\n').filter((line) => line.trim() !== '');
+      const lines = data
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
       if (lines.length <= 1) {
         resolve('Number of students: 0');
         return;
@@ -61,12 +65,13 @@ const app = http.createServer((req, res) => {
   } else if (req.url === '/students') {
     const database = process.argv[2];
 
+    res.write('This is the list of our students\n');
     countStudents(database)
       .then((data) => {
-        res.end(`This is the list of our students\n${data}`);
+        res.end(data);
       })
       .catch((err) => {
-        res.end(`This is the list of our students\n${err.message}`);
+        res.end(err.message);
       });
   } else {
     res.statusCode = 404;
