@@ -15,8 +15,7 @@ function countStudents(path) {
 
       const lines = data
         .split('\n')
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0);
+        .filter((line) => line.trim() !== '');
 
       if (lines.length <= 1) {
         resolve('Number of students: 0');
@@ -39,19 +38,12 @@ function countStudents(path) {
         }
       });
 
-      const totalStudents = Object.values(fields).reduce(
-        (sum, list) => sum + list.length,
-        0
-      );
-
-      const responseParts = [`Number of students: ${totalStudents}`];
+      let output = `Number of students: ${Object.values(fields).reduce((a, b) => a + b.length, 0)}`;
       for (const [field, names] of Object.entries(fields)) {
-        responseParts.push(
-          `Number of students in ${field}: ${names.length}. List: ${names.join(', ')}`
-        );
+        output += `\nNumber of students in ${field}: ${names.length}. List: ${names.join(', ')}`;
       }
 
-      resolve(responseParts.join('\n'));
+      resolve(output);
     });
   });
 }
@@ -61,12 +53,11 @@ const app = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
 
   if (req.url === '/') {
-    res.end('Hello Holberton School!');
+    res.write('Hello Holberton School!');
+    res.end();
   } else if (req.url === '/students') {
-    const database = process.argv[2];
-
     res.write('This is the list of our students\n');
-    countStudents(database)
+    countStudents(process.argv[2])
       .then((data) => {
         res.end(data);
       })
